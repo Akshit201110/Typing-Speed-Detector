@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Typing Speed Detector</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  </head>
+  <body>
+    <div style="display: flex;
+    background-color: purple;
+    width: 100%;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;">
+        <div style="background-color: white; width: 40%;
+        text-align: center; padding: 50px;">
+            <div><h1 style="color: purple;">Typing Speed Detector</h1></div>
+            <div style="display: flex; width: 100%;">
+                <div style="width: 100%;"><h6 style="color: palevioletred; text-align: center;" id="timer1" class="timer1">Time Left :- 60 <span style="font-size: 12px; margin-left: -3px;">s</span></h6></div>
+                <!-- <div style="width: 50%;"><h6 style="color: palevioletred; text-align: right;" id="info1" class="info1">Start Typing To Start Timer</h6></div> -->
+            </div>
+            <div><textarea style="resize: none; background-color: #ebebeb;" name="writting_area1" id="writting_area1" cols="50" rows="5"></textarea></div>
+            <div style="display: flex; width: 100%; color: palevioletred;">
+                <div style="width: 50%;"><h6 style="text-align: left;" class="words_written1" id="words_written1">Words :- 0</h6></div>
+                <div style="width: 50%;"><h6 style="text-align: right;" class="letters_written1" id="letters_written1">Letters :- 0</h6></div>
+            </div>
+            <div style="width: 100%; color: palevioletred;"><h6 style="text-align: center;" class="speed1" id="speed1">Speed :- 0 Words/Minute</h6></div>
+            <div id="info1" class="info1"></div>
+            <div id="info2" class="info2"></div>
+            <div id="info3" class="info3"></div>
+        </div>
+    </div>
+
+    <script>
+        var time_left1 = parseInt(document.getElementById("timer1").innerHTML.split(" ")[3]);
+        var words_written1 = parseInt(document.getElementById("words_written1").innerHTML.split(" ")[2]);
+        var letters_written1 = parseInt(document.getElementById("letters_written1").innerHTML.split(" ")[2]);
+        // var speed1 = parseInt(document.getElementById("speed1").innerHTML.split(" ")[2]);
+
+        var runned1 = 0;
+        var runned2 = 0;
+
+        document.getElementById("info1").innerHTML = '<div class="alert alert-info alert-dismissible fade show"><button type="button" class="close info1_btn1" data-dismiss="alert">&times;</button>Start Typing To Start Timer.</div>';
+
+        document.getElementById("writting_area1").addEventListener("keyup", function () {
+
+            if (document.getElementById("info1").innerHTML != "") {
+                document.getElementsByClassName("info1_btn1")[0].click();
+            } else {
+                
+            }
+            
+            letters_written1 = document.getElementById("writting_area1").value.split("").length
+            document.getElementById("letters_written1").innerHTML = "Letters :- "+letters_written1;
+
+            words_written1 = document.getElementById("writting_area1").value.split(" ").length
+            document.getElementById("words_written1").innerHTML = "Words :- "+words_written1;
+
+            document.getElementById("speed1").innerHTML = "Speed :- "+words_written1+" Words/Minute";
+
+            if(runned1 == 0){
+                setInterval(function () {
+                    if (time_left1 > 0) {
+                        time_left1--;
+                        document.getElementById("timer1").innerHTML = 'Time Left :- '+time_left1+' <span style="font-size: 12px; margin-left: -3px;">s</span>';
+                    } else{
+                        document.getElementById("writting_area1").setAttribute("readonly", "")
+                        if(runned2 == 0){
+                            document.getElementById("info2").innerHTML = '<div class="alert alert-warning alert-dismissible fade show"><button type="button" class="close info2_btn1" data-dismiss="alert">&times;</button>Time Out, You Cannot Edit/Write Now.</div>';
+                            runned2++;
+                        }
+                    }
+                }, 1000)
+                runned1++;
+            }
+        });
+    </script>
+  </body>
+</html>
